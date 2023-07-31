@@ -33,8 +33,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@cba0d00b1fc9a034e1e642ea0f1103c282990604 # v2.5.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: Configure CMake
         run: cmake -B ${{ env.build }}
@@ -54,7 +59,7 @@ jobs:
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@0ba4244466797eb048eb91a6cd43d5c03ca8bd05 # v2.21.2
         with:
           sarif_file: ${{ steps.run-analysis.outputs.sarif }}
 

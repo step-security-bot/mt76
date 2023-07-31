@@ -31,8 +31,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@cba0d00b1fc9a034e1e642ea0f1103c282990604 # v2.5.0
+      with:
+        egress-policy: audit
+
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
     # Ensure a compatible version of dotnet is installed.
     # The [Microsoft Security Code Analysis CLI](https://aka.ms/mscadocs) is built with dotnet v3.1.201.
@@ -46,11 +51,11 @@ jobs:
 
       # Run open source static analysis tools
     - name: Run OSSAR
-      uses: github/ossar-action@v1
+      uses: github/ossar-action@786a16a90ba92b4ae6228fe7382fb16ef5c51000 # v1
       id: ossar
 
       # Upload results to the Security tab
     - name: Upload OSSAR results
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@0ba4244466797eb048eb91a6cd43d5c03ca8bd05 # v2.21.2
       with:
         sarif_file: ${{ steps.ossar.outputs.sarifFile }}
